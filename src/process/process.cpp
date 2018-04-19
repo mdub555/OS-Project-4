@@ -10,30 +10,34 @@ using namespace std;
 
 
 Process* Process::read_from_input(std::istream& in) {
-  // TODO: implement me
-  return nullptr;
+  // initialize all of the pages and get the total size
+  vector<Page*> pages;
+  Page* page;
+  size_t total_size = 0;
+  while ((page = Page::read_from_input(in))) {
+    pages.push_back(page);
+    total_size += page->size();
+  }
+  return new Process(total_size, pages);
 }
 
 
 size_t Process::size() const {
-  // TODO: implement me
-  return 0;
+  return num_bytes;
 }
 
 
 bool Process::is_valid_page(size_t index) const {
-  // TODO: implement me
-  return false;
+  return index < pages.size();
 }
 
 
 size_t Process::get_rss() const {
-  // TODO: implement me
-  return 0;
+  return page_table.get_present_page_count();
 }
 
 
 double Process::get_fault_percent() const {
-  // TODO: implement me
-  return 0.0;
+  if (memory_accesses == 0) return 0.0;
+  return (double) page_faults / memory_accesses * 100.0;
 }

@@ -17,7 +17,7 @@ Page* Page::read_from_input(std::istream& in) {
   char c;
   vector<char> bytes;
   size_t i = 0;
-  while (in.get(c) && i < PAGE_SIZE) {
+  while (i < PAGE_SIZE && in.get(c)) {
     bytes.push_back(c);
     i++;
   }
