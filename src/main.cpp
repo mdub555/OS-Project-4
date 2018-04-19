@@ -5,6 +5,7 @@
  */
 
 #include <cstdlib>
+#include "flag_parser/flag_parser.h"
 
 using namespace std;
 
@@ -14,5 +15,7 @@ using namespace std;
  */
 int main(int argc, char** argv) {
   // TODO: implement me
+  FlagOptions flags;
+  if (!parse_flags(argc, argv, flags)) return EXIT_FAILURE;
   return EXIT_SUCCESS;
 }

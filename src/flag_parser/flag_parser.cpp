@@ -6,6 +6,7 @@
 
 #include "flag_parser/flag_parser.h"
 #include <iostream>
+#include <getopt.h>
 
 using namespace std;
 
@@ -31,6 +32,74 @@ void print_usage() {
 
 
 bool parse_flags(int argc, char** argv, FlagOptions& flags) {
-  // TODO: implement me
-  return false;
+  static struct option flag_options[] = {
+    {"verbose",    no_argument,       0, 'v'},
+    {"strategy",   required_argument, 0, 's'},
+    {"max-frames", required_argument, 0, 'f'},
+    {"help",       no_argument,       0, 'h'},
+    {0, 0, 0, 0}
+  };
+
+  int option_index;
+  char flag_char;
+
+  while (true) {
+    flag_char = getopt_long(argc, argv, "-vs:f:h", flag_options, &option_index);
+
+    if (flag_char == -1) break;
+
+    switch (flag_char) {
+    case 'v':
+      flags.verbose = true;
+      break;
+
+    case 's': {
+      string option(optarg);
+      if (option == "LRU") {
+        flags.strategy = ReplacementStrategy::LRU;
+      } else if (option == "FIFO") {
+        flags.strategy = ReplacementStrategy::FIFO;
+      } else {
+        print_usage();
+        return false;
+      }
+      break;
+    }
+
+    case 'f': {
+      if (!isdigit(optarg[0])) {
+        print_usage();
+        return false;
+      }
+      int frames = atoi(optarg);
+      if (frames <= 0) {
+        print_usage();
+        return false;
+      }
+      flags.max_frames = frames;
+      break;
+    }
+
+    case 'h':
+      print_usage();
+      exit(EXIT_SUCCESS);
+      break;
+
+    case 1:
+      flags.filename = optarg;
+      break;
+
+    default:
+      print_usage();
+      return false;
+      break;
+    }
+  }
+
+  if (flags.filename == "") {
+    print_usage();
+    return false;
+  }
+
+  return true;
 }
