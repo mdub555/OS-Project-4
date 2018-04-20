@@ -6,6 +6,7 @@
 
 #include <cstdlib>
 #include "flag_parser/flag_parser.h"
+#include "simulation/simulation.h"
 
 using namespace std;
 
@@ -17,5 +18,9 @@ int main(int argc, char** argv) {
   // TODO: implement me
   FlagOptions flags;
   if (!parse_flags(argc, argv, flags)) return EXIT_FAILURE;
+
+  Simulation simulation(flags);
+  simulation.run();
+
   return EXIT_SUCCESS;
 }

@@ -8,7 +8,9 @@
 #pragma once
 #include "process/process.h"
 #include "virtual_address/virtual_address.h"
+#include "flag_parser/flag_parser.h"
 #include <cstdlib>
+#include <map>
 
 
 /**
@@ -27,12 +29,27 @@ public:
 public:
 
   /**
+   * Constructor
+   */
+  Simulation(FlagOptions flags) : filename(flags.filename),
+                                  strategy(flags.strategy),
+                                  verbose(flags.verbose),
+                                  max_frames(flags.max_frames) {}
+
+  /**
    * Runs the simulation.
    */
   void run();
 
 // PRIVATE METHODS
 private:
+  std::string filename;
+  ReplacementStrategy strategy;
+  bool verbose;
+  int max_frames;
+  std::map<int, Process*> processes;
+
+  bool read_processes(std::istream& in);
 
   /**
    * Performs a memory access for the given virtual address, translating it to

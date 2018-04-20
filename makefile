@@ -50,7 +50,7 @@ $(NAME): bin/main.o $(IMPL_OBJS)
 
 # Build and run the program.
 run: $(NAME)
-	./$(NAME) -v example_sim
+	./$(NAME) -v inputs/sim_1
 
 # Build and run the unit tests.
 test: bin/all_tests
