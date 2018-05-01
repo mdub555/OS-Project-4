@@ -49,8 +49,8 @@ In order to see this Anomoly:
 
 3 frames and 9 page faults:
 
-./mem-sim -f 3 inputs/belady
+`./mem-sim -f 3 inputs/belady`
 
 4 frames and 10 page faults:
 
-./mem-sim -f 4 inputs/belady
+`./mem-sim -f 4 inputs/belady`
