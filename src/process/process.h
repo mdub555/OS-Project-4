@@ -81,4 +81,6 @@ public:
    * The number of page faults this process experienced.
    */
   size_t page_faults = 0;
+
+  size_t current_frame = 0;
 };

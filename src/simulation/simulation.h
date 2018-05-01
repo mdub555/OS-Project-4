@@ -8,7 +8,9 @@
 #pragma once
 #include "process/process.h"
 #include "virtual_address/virtual_address.h"
+#include "physical_address/physical_address.h"
 #include "flag_parser/flag_parser.h"
+#include "frame/frame.h"
 #include <cstdlib>
 #include <map>
 
@@ -43,14 +45,6 @@ public:
 
 // PRIVATE METHODS
 private:
-  std::string filename;
-  ReplacementStrategy strategy;
-  bool verbose;
-  int max_frames;
-  std::map<int, Process*> processes;
-
-  bool read_processes(std::istream& in);
-
   /**
    * Performs a memory access for the given virtual address, translating it to
    * a physical address and loading the page into memory if needed. Returns the
@@ -64,7 +58,39 @@ private:
    */
   void handle_page_fault(Process* process, size_t page);
 
+  /**
+   * Reads in the processes from the file given the file format and adds the process to the map of
+   * processes.
+   */
+  bool read_processes(std::istream& in);
+
 // INSTANCE VARIABLES
 private:
+  /**
+   * The filename of the main input file
+   */
+  std::string filename;
 
+  /**
+   * The strategy given via the command line arguments. LRU or FIFO.
+   */
+  ReplacementStrategy strategy;
+
+  /**
+   * Whether or not the output should be verbose
+   */
+  bool verbose;
+
+  /**
+   * The number of frames given to a program. Default: 10
+   */
+  int max_frames;
+
+  /**
+   * A map of processes to hold all the information in each of the process files.
+   */
+  std::map<int, Process*> processes;
+  std::vector<VirtualAddress> virt_addrs;
+  std::vector<Frame> frames;
+  int virtual_time = 0;
 };
