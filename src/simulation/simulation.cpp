@@ -49,12 +49,10 @@ void Simulation::run() {
 
   in.close();
 
-  char output[virt_addrs.size()];
   // do all the memory accesses
   for (size_t i = 0; i < virt_addrs.size(); i++) {
-    output[i] = perform_memory_access(virt_addrs[i]);
+    perform_memory_access(virt_addrs[i]);
   }
-  cout << output << endl;
   cout << endl
        << "DONE!" << endl << endl;
 
@@ -144,12 +142,12 @@ void Simulation::handle_page_fault(Process* process, size_t page) {
     frames[index] = frame;
     process->page_table.rows[page].frame = index;
   } else {
+    // add a new frame
     frames.push_back(frame);
     process->page_table.rows[page].frame = frames.size()-1;
   }
 
-  // load into memory, set present, pass page to next available frame, remove it from free
-  // availible frame vector
+  // set it present and loaded
   process->page_table.rows[page].present = true;
   process->page_table.rows[page].loaded_at = virtual_time;
 }

@@ -90,7 +90,19 @@ private:
    * A map of processes to hold all the information in each of the process files.
    */
   std::map<int, Process*> processes;
+
+  /**
+   * The vector used to hold all the virtual addresses in the simulation.
+   */
   std::vector<VirtualAddress> virt_addrs;
+
+  /**
+   * A vector of frames that currently hold pages.
+   */
   std::vector<Frame> frames;
+
+  /**
+   * A relative time used to determine when a page is loaded or accessed.
+   */
   int virtual_time = 0;
 };

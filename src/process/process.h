@@ -82,5 +82,9 @@ public:
    */
   size_t page_faults = 0;
 
+  /**
+   * The last frame to have been used by this process. Used to replace frames
+   * from this process instead of continuously adding frames.
+   */
   size_t current_frame = 0;
 };
