@@ -54,3 +54,8 @@ In order to see this Anomoly:
 4 frames and 10 page faults:
 
 `./mem-sim -f 4 inputs/belady`
+
+## Graded
+* Score tag final: 180/180
+* Score Total: 200/200
+
